@@ -83,21 +83,59 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // --- Contact form ---
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const btn = form.querySelector('.btn-submit');
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.style.background = '';
-        form.reset();
-      }, 3000);
+  // --- Contact Form with EmailJS ---
+const form = document.getElementById("contactForm");
+
+if (form) {
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const btn = form.querySelector(".btn-submit");
+        const originalHTML = btn.innerHTML;
+
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+        emailjs.send(
+            "service_62jiro2",
+            "template_d5802z9",
+            {
+                from_name: document.getElementById("name").value,
+                from_email: document.getElementById("email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            }
+        )
+        .then(function () {
+
+            btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+
+            alert("Message Sent Successfully!");
+
+            form.reset();
+
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = "";
+            }, 3000);
+
+        })
+        .catch(function (error) {
+
+            console.error(error);
+
+            alert("Failed to send message!");
+
+            btn.innerHTML = originalHTML;
+            btn.style.background = "";
+
+        });
+
     });
-  }
+
+}
 
   // --- Typing animation for hero role ---
   const roles = ['Aspiring Data Analyst', 'Power BI Developer', 'SQL Enthusiast', 'Python Learner'];
