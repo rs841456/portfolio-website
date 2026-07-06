@@ -1,1 +1,4 @@
+User-agent: *
+Allow: /
 
+Sitemap: https://rajan-kumar-portfolio01.netlify.app/sitemap.xml
